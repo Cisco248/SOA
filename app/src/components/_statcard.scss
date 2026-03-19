@@ -1,0 +1,118 @@
+@import "../assets/styles/variables";
+
+.stat-card {
+  background: $panel;
+  border: 1px solid $edge;
+  padding: 20px 22px;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: 3px solid $amber;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 8px,
+      rgba(255, 255, 255, 0.01) 8px,
+      rgba(255, 255, 255, 0.01) 9px
+    );
+  }
+
+  &.amber {
+    border-top: 3px solid $amber;
+  }
+
+  &.green {
+    border-top: 3px solid $green;
+  }
+
+  &.red {
+    border-top: 3px solid $red;
+  }
+
+  &.blue {
+    border-top: 3px solid $blue;
+  }
+
+  .stat-label {
+    font-family: $font-mono;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: $text-dim;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    color: $text-mid;
+  }
+  .stat-value {
+    font-family: $font-mono;
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -1px;
+
+    &.amber {
+      color: $amber;
+    }
+
+    &.green {
+      color: $green;
+    }
+
+    &.red {
+      color: $red;
+    }
+
+    &.blue {
+      color: $blue;
+    }
+  }
+
+  .stat-sub {
+    font-size: 12px;
+    margin-top: 6px;
+    color: $text-dim;
+  }
+
+  .rivet-corners {
+    position: relative;
+  }
+
+  &::before,
+  &::after,
+  & > .rivet-br,
+  & > .rivet-bl {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $rivet;
+    border: 1px solid $edge;
+  }
+
+  &::before {
+    top: 6px;
+    left: 6px;
+  }
+
+  &::after {
+    top: 6px;
+    right: 6px;
+  }
+
+  & > .rivet-br {
+    bottom: 6px;
+    right: 6px;
+  }
+
+  & > .rivet-bl {
+    bottom: 6px;
+    left: 6px;
+  }
+}

@@ -1,0 +1,81 @@
+@import "../assets/styles/variables";
+@import "../assets/styles/mixins";
+
+.sidebar {
+  background: $panel;
+  border-right: 2px solid $edge;
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+  .sidebar-section-label {
+    font-family: $font-mono;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--text-dim);
+    padding: 12px 24px 8px;
+    text-transform: uppercase;
+    border-top: 1px solid $edge;
+    margin-top: 8px;
+
+    &:first-child {
+      border-top: none;
+      margin-top: 0;
+    }
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+    font-weight: 500;
+    font-size: 14px;
+    color: $text-mid;
+    text-decoration: none;
+    position: relative;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: $text-bright;
+      border-left-color: $edge;
+    }
+
+    &.active {
+      background: rgba(245, 158, 11, 0.08);
+      color: $amber;
+      border-left-color: $amber;
+    }
+  }
+
+  .nav-icon {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+  }
+
+  .nav-badge {
+    margin-left: auto;
+    @include set-color($amber);
+    font-family: $font-mono;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 2px;
+    min-width: 22px;
+    text-align: center;
+    color: $panel;
+
+    &.red {
+      @include set-color($red);
+    }
+
+    &.green {
+      @include set-color($green);
+    }
+  }
+}

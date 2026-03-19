@@ -1,0 +1,104 @@
+@import "../assets/styles/variables";
+@import "../assets/styles/mixins";
+
+.topbar {
+  background: $steel;
+  display: flex;
+  align-items: center;
+  height: 64px;
+  border-bottom: 3px solid $amber;
+  padding: 0 32px;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: $shadow-heavy;
+
+  .logo-badge {
+    background: $amber;
+    color: #000;
+    font-family: $font-condensed;
+    font-weight: 900;
+    font-size: 18px;
+    padding: 6px 14px;
+    @include tactical-clip;
+  }
+
+  .site-title {
+    font-family: $font-condensed;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .site-title {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 4px;
+    color: var(--text-bright);
+    text-transform: uppercase;
+  }
+
+  .status-indicators {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .status-dot {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: $font-mono;
+    font-size: 11px;
+    color: var(--text-mid);
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+
+    @keyframes pulse {
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.4;
+      }
+    }
+
+    &.green {
+      @include status-color($green);
+    }
+    &.amber {
+      @include status-color($amber);
+      animation-delay: 0.7s;
+    }
+    &.red {
+      @include status-color($red);
+      animation-delay: 1.4s;
+    }
+  }
+
+  .clock {
+    font-family: $font-mono;
+    font-size: 14px;
+    color: $amber;
+    letter-spacing: 2px;
+    border: 1px solid $edge;
+    padding: 4px 12px;
+    background: rgba(0, 0, 0, 0.3);
+  }
+}

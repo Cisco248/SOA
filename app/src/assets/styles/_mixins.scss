@@ -1,0 +1,49 @@
+// Tactical Clip Path (Angled corners)
+@mixin tactical-clip($top-width: 94%, $bottom-width: 6%) {
+  clip-path: polygon(0 0, 100% 0, $top-width 100%, $bottom-width 100%);
+}
+
+// Centering Flexbox
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Industrial Rivets
+@mixin rivet-style {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: $rivet;
+  border: 1px solid $edge;
+}
+
+// Scrollbar Theme
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: $steel;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $edge;
+    &:hover {
+      background: $amber;
+    }
+  }
+}
+
+// Status Dot Logic
+@mixin status-color($color) {
+  background: $color;
+  box-shadow: 0 0 8px $color;
+}
+
+@mixin set-color($color) {
+  background: $color;
+}

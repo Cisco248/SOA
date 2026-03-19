@@ -1,0 +1,38 @@
+{
+  "name": "services",
+  "version": "1.0.0",
+  "description": "Soa Sample Project",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "test.js",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https:github.com/Cisco248/Service-Oriented-Architecture-Project.git"
+  },
+  "keywords": [
+    "npm",
+    "nodejs"
+  ],
+  "type": "module",
+  "author": "Cisco248",
+  "license": "ISC",
+  "bugs": {
+    "url": "https:github.com/Cisco248/Service-Oriented-Architecture-Project/issues"
+  },
+  "homepage": "https:github.com/Cisco248/Service-Oriented-Architecture-Project#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "express-generator": "^4.14.1",
+    "json": "^11.0.0",
+    "nodemon": "^3.1.14"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0"
+  }
+}
