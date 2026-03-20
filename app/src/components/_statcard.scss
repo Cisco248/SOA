@@ -1,8 +1,8 @@
-@import "../assets/styles/variables";
+@use "../assets/styles/variables";
 
 .stat-card {
-  background: $panel;
-  border: 1px solid $edge;
+  background: variables.$panel;
+  border: 1px solid variables.$edge;
   padding: 20px 22px;
   position: relative;
   overflow: hidden;
@@ -14,7 +14,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    border-top: 3px solid $amber;
+    border-top: 3px solid variables.$amber;
     background: repeating-linear-gradient(
       -45deg,
       transparent,
@@ -25,58 +25,58 @@
   }
 
   &.amber {
-    border-top: 3px solid $amber;
+    border-top: 3px solid variables.$amber;
   }
 
   &.green {
-    border-top: 3px solid $green;
+    border-top: 3px solid variables.$green;
   }
 
   &.red {
-    border-top: 3px solid $red;
+    border-top: 3px solid variables.$red;
   }
 
   &.blue {
-    border-top: 3px solid $blue;
+    border-top: 3px solid variables.$blue;
   }
 
   .stat-label {
-    font-family: $font-mono;
+    font-family: variables.$font-mono;
     font-size: 10px;
     letter-spacing: 2px;
-    color: $text-dim;
+    color: variables.$text-dim;
     text-transform: uppercase;
     margin-bottom: 10px;
-    color: $text-mid;
+    color: variables.$text-mid;
   }
   .stat-value {
-    font-family: $font-mono;
+    font-family: variables.$font-mono;
     font-size: 42px;
     font-weight: 900;
     line-height: 1;
     letter-spacing: -1px;
 
     &.amber {
-      color: $amber;
+      color: variables.$amber;
     }
 
     &.green {
-      color: $green;
+      color: variables.$green;
     }
 
     &.red {
-      color: $red;
+      color: variables.$red;
     }
 
     &.blue {
-      color: $blue;
+      color: variables.$blue;
     }
   }
 
   .stat-sub {
     font-size: 12px;
     margin-top: 6px;
-    color: $text-dim;
+    color: variables.$text-dim;
   }
 
   .rivet-corners {
@@ -92,8 +92,8 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: $rivet;
-    border: 1px solid $edge;
+    background: variables.$rivet;
+    border: 1px solid variables.$edge;
   }
 
   &::before {

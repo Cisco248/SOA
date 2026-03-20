@@ -1,0 +1,25 @@
+@use "../assets/styles/variables";
+
+.priority-bar {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+
+  .priority-segment {
+    width: 8px;
+    height: 14px;
+    background: variables.$edge;
+
+    &.high {
+      background: variables.$red;
+    }
+
+    &.mid {
+      background: variables.$amber;
+    }
+
+    &.low {
+      background: variables.$green;
+    }
+  }
+}

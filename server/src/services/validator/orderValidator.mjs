@@ -12,21 +12,21 @@ import { ERROR_CODES } from '../../types/status.mjs';
 
 function ValidateOrderInput(id, name, params) {
     if (!Number.isFinite(id) || id <= 0) {
-        throw new OrderServiceError(`order_id must be a positive finite number, received: ${id}`, ERROR_CODES.INVALID_ODER_ID,
+        throw new OrderServiceError(`order_id must be a positive finite number, received: variables.${id}`, ERROR_CODES.INVALID_ODER_ID,
             id
         )
     }
 
     if (typeof name !== "string" || name.trim().length === 0) {
         throw new OrderServiceError(
-            `order_name must be a non-empty string, received: ${JSON.stringify(name)}`,
+            `order_name must be a non-empty string, received: variables.${JSON.stringify(name)}`,
             ERROR_CODES.INVALID_ORDER_NAME,
             name
         );
     }
     if (typeof params !== "string") {
         throw new OrderServiceError(
-            `params must be a string, received: ${typeof params}`,
+            `params must be a string, received: variables.${typeof params}`,
             ERROR_CODES.INVALID_PARAMS,
             params
         );

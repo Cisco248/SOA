@@ -5,13 +5,13 @@
   align-items: center;
   justify-content: space-between;
   padding: 14px 20px;
-  border-top: 1px solid $edge;
-  background: $plate;
+  border-top: 1px solid variables.$edge;
+  background: variables.$plate;
 
   .page-info {
-    font-family: $font-mono;
+    font-family: variables.$font-mono;
     font-size: 11px;
-    color: $text-dim;
+    color: variables.$text-dim;
   }
 
   .page-btns {
@@ -22,10 +22,10 @@
   .page-btn {
     width: 32px;
     height: 32px;
-    border: 1px solid $edge;
+    border: 1px solid variables.$edge;
     background: transparent;
-    color: $text-mid;
-    font-family: $font-mono;
+    color: variables.$text-mid;
+    font-family: variables.$font-mono;
     font-size: 12px;
     cursor: pointer;
     transition: all 0.12s;
@@ -35,8 +35,8 @@
 
     &:hover,
     &.active {
-      border-color: $amber;
-      color: $amber;
+      border-color: variables.$amber;
+      color: variables.$amber;
       background: rgba(245, 158, 11, 0.08);
     }
   }

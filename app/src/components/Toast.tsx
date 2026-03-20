@@ -1,29 +1,36 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-interface Props {}
+enum ToastType {
+  info = "blue",
+  failed = "red",
+  warning = "amber",
+  success = "green",
+}
 
-let toastTimer: number;
+interface ToastProps {
+  message: string;
+  type: keyof typeof ToastType;
+}
 
-const Toast = (props: Props) => {
+const Toast = ({ message, type }: ToastProps) => {
+  const [isVisible, setIsVisible] = useState(true);
+
   useEffect(() => {
-    const showToast = (msg: string, type: string = "green") => {
-      const el: HTMLElement | null = document.getElementById("toast");
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+    }, 3000);
 
-      if (el) {
-        el.textContent = msg;
-        el.style.borderLeftColor =
-          type === "red" ? "var(--red)" : "var(--green)";
-        el.style.color = type === "red" ? "var(--red)" : "var(--green)";
-        el.classList.add("show");
-        toastTimer = setTimeout(() => el.classList.remove("show"), 3000);
-      }
-      clearTimeout(toastTimer);
-      return () => showToast;
-    };
-  }, []);
+    return () => clearTimeout(timer);
+  }, [message]);
+
+  if (!isVisible) return null;
+
   return (
-    <div className="toast" id="toast">
-      <div className="msg"></div>
+    <div
+      className={`${ToastType[type]} ${isVisible ? "show" : "hide"} toast`}
+      role="alert"
+    >
+      <div>{message}</div>
     </div>
   );
 };

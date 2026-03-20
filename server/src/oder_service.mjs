@@ -45,7 +45,7 @@ class OrderService {
 
         if (this.#orders.has(orderId)) {
             throw new OrderServiceError(
-                `Order with id ${orderId} already exists.`,
+                `Order with id variables.${orderId} already exists.`,
                 ERROR_CODES.ORDER_EXISTS,
                 id
             );
@@ -68,7 +68,7 @@ class OrderService {
 
         if (!order) {
             throw new OrderServiceError(
-                `Order with id ${id} not found.`,
+                `Order with id variables.${id} not found.`,
                 ERROR_CODES.ORDER_NOT_FOUND,
                 id
             );

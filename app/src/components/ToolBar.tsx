@@ -1,47 +1,68 @@
+import { useState, useEffect } from "react";
+import Toast from "./Toast";
+import type { Filters } from "../repository/order";
 import "./_toolbar.scss";
 
-interface Props {
-  search_placeholder: string;
-}
+export const ToolBar = ({ onFilterChange }: { onFilterChange: (filters: Filters) => void }) => {
+  const [filters, setFilters] = useState<Filters>({
+    search: "",
+    status: "",
+    priority: "",
+  });
 
-export const ToolBar = ({ search_placeholder }: Props) => {
-  //   function filterOrders() {
-  //     const q = document.getElementById("searchInput").value.toLowerCase();
-  //     const status = document.getElementById("statusFilter").value;
-  //     const prio = document.getElementById("priorityFilter").value;
-  //     const result = orders.filter(
-  //       (o) =>
-  //         (!q ||
-  //           o.id.toLowerCase().includes(q) ||
-  //           o.customer.toLowerCase().includes(q) ||
-  //           o.product.toLowerCase().includes(q)) &&
-  //         (!status || o.status === status) &&
-  //         (!prio || o.priority === prio),
-  //     );
-  //     document.getElementById("pageInfo").textContent =
-  //       `SHOWING 1–${Math.min(result.length, 10)} OF ${result.length} ORDERS`;
-  //     return renderOrders(result);
-  //   }
+  const [toast, setToast] = useState<{
+    message: string;
+    type: "success" | "failed" | "info" | "warning";
+  } | null>(null);
 
-  //   function exportOrders() {
-  //     showToast("⬇ EXPORTING CSV...");
-  //   }
+  const handleChanges = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { id, value } = e.target;
+
+    const keyMap: Record<string, keyof Filters> = {
+      searchInput: "search",
+      statusFilter: "status",
+      priorityFilter: "priority",
+    };
+
+    const key = keyMap[id];
+    if (key) {
+      setFilters((prev: Filters) => ({
+        ...prev,
+        [key]: value,
+      }));
+    }
+  };
+
+  useEffect(() => {
+    onFilterChange(filters);
+  }, [filters, onFilterChange]);
+
+  const handleExport = () => {
+    setToast({ message: "Data Export Successfully!", type: "success" });
+  };
 
   return (
     <div className="toolbar">
+      {toast && <Toast message={toast.message} type={toast.type} />}
+
       <div className="search-wrap">
         <span className="search-icon">⌕</span>
         <input
           id="searchInput"
           className="search-input"
-          placeholder={search_placeholder}
-          //   onInput={filterOrders()}
+          placeholder="SEARCH ORDER ID, CUSTOMER, PRODUCT..."
+          value={filters.search}
+          onChange={handleChanges}
         />
       </div>
+
       <select
         className="filter-select"
         id="statusFilter"
-        //   onChange={filterOrders()}
+        value={filters.status}
+        onChange={handleChanges}
       >
         <option value="">ALL STATUS</option>
         <option value="PENDING">PENDING</option>
@@ -50,20 +71,20 @@ export const ToolBar = ({ search_placeholder }: Props) => {
         <option value="COMPLETE">COMPLETE</option>
         <option value="CANCELLED">CANCELLED</option>
       </select>
+
       <select
         className="filter-select"
         id="priorityFilter"
-        //   onChange={filterOrders()}
+        value={filters.priority}
+        onChange={handleChanges}
       >
         <option value="">ALL PRIORITY</option>
         <option value="HIGH">HIGH</option>
         <option value="MEDIUM">MEDIUM</option>
         <option value="LOW">LOW</option>
       </select>
-      <button
-        className="btn btn-ghost"
-        // onClick={exportOrders()}
-      >
+
+      <button className="btn btn-ghost" onClick={handleExport}>
         ⬇ Export
       </button>
     </div>

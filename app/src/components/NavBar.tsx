@@ -1,18 +1,7 @@
 import { useEffect, useState } from "react";
 import "./_navbar.scss";
 
-type Props = {};
-
-// function updateClock() {
-// 	const now = new Date();
-// 	const elmnt = document.getElementById("clock")
-// 	if (elmnt) {
-// 		elmnt.textContent = now.toTimeString().slice(0, 8);
-// 	}
-// }
-// setInterval(updateClock, 1000);
-
-export const NavBar = ({}: Props) => {
+export const NavBar = () => {
   const [time, setTime] = useState("--:--:--");
 
   useEffect(() => {

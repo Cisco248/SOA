@@ -1,3 +1,5 @@
+@use "./variables";
+
 // Tactical Clip Path (Angled corners)
 @mixin tactical-clip($top-width: 94%, $bottom-width: 6%) {
   clip-path: polygon(0 0, 100% 0, $top-width 100%, $bottom-width 100%);
@@ -17,8 +19,8 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: $rivet;
-  border: 1px solid $edge;
+  background: variables.$rivet;
+  border: 1px solid variables.$edge;
 }
 
 // Scrollbar Theme
@@ -28,22 +30,34 @@
     height: 6px;
   }
   &::-webkit-scrollbar-track {
-    background: $steel;
+    background: variables.$steel;
   }
   &::-webkit-scrollbar-thumb {
-    background: $edge;
+    background: variables.$edge;
     &:hover {
-      background: $amber;
+      background: variables.$amber;
     }
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 
 // Status Dot Logic
 @mixin status-color($color) {
-  background: $color;
-  box-shadow: 0 0 8px $color;
+  background: variables.$color;
+  box-shadow: 0 0 8px variables.$color;
 }
 
 @mixin set-color($color) {
-  background: $color;
+  background: variables.$color;
 }

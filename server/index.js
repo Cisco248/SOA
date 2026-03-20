@@ -38,12 +38,12 @@ app.get('/', (req, res) => {
             height: 100vh; 
             font-family: sans-serif;
         ">
-            <h2 style="color: ${code >= 400 ? 'red' : 'green'};">Status Code: ${code}</h2>
-            <h2>Message: ${code >= 400 ? `Application Error: ${res.statusMessage || 'Internal Server Error'}` : 'Server Running!'}</h2>
+            <h2 style="color: variables.${code >= 400 ? 'red' : 'green'};">Status Code: variables.${code}</h2>
+            <h2>Message: variables.${code >= 400 ? `Application Error: variables.${res.statusMessage || 'Internal Server Error'}` : 'Server Running!'}</h2>
         </div>
     `);
 });
 
 app.listen(port, () => {
-    console.log(`Server running at http:localhost:${port}`);
+    console.log(`Server running at http:localhost:variables.${port}`);
 });

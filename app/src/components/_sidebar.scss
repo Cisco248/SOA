@@ -1,22 +1,22 @@
-@import "../assets/styles/variables";
-@import "../assets/styles/mixins";
+@use "../assets/styles/mixins";
+@use "../assets/styles/variables";
 
 .sidebar {
-  background: $panel;
-  border-right: 2px solid $edge;
+  background: variables.$panel;
+  border-right: 2px solid variables.$edge;
   padding: 24px 0;
   display: flex;
   flex-direction: column;
   gap: 0;
 
   .sidebar-section-label {
-    font-family: $font-mono;
+    font-family: variables.$font-mono;
     font-size: 10px;
     letter-spacing: 3px;
-    color: var(--text-dim);
+    color: variables.$text-dim;
     padding: 12px 24px 8px;
     text-transform: uppercase;
-    border-top: 1px solid $edge;
+    border-top: 1px solid variables.$edge;
     margin-top: 8px;
 
     &:first-child {
@@ -35,20 +35,20 @@
     transition: all 0.15s;
     font-weight: 500;
     font-size: 14px;
-    color: $text-mid;
+    color: variables.$text-mid;
     text-decoration: none;
     position: relative;
 
     &:hover {
       background: rgba(255, 255, 255, 0.04);
-      color: $text-bright;
-      border-left-color: $edge;
+      color: variables.$text-bright;
+      border-left-color: variables.$edge;
     }
 
     &.active {
       background: rgba(245, 158, 11, 0.08);
-      color: $amber;
-      border-left-color: $amber;
+      color: variables.$amber;
+      border-left-color: variables.$amber;
     }
   }
 
@@ -60,22 +60,22 @@
 
   .nav-badge {
     margin-left: auto;
-    @include set-color($amber);
-    font-family: $font-mono;
+    background: variables.$amber;
+    font-family: variables.$font-mono;
     font-size: 10px;
     font-weight: 700;
     padding: 2px 7px;
     border-radius: 2px;
     min-width: 22px;
     text-align: center;
-    color: $panel;
+    color: variables.$panel;
 
     &.red {
-      @include set-color($red);
+      background: variables.$red;
     }
 
     &.green {
-      @include set-color($green);
+      background: variables.$green;
     }
   }
 }

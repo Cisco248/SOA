@@ -1,34 +1,43 @@
 import "./_sidebar.scss";
 
-interface Props {}
+interface SideBarProps {
+  counts: {
+    all: number;
+    pending: number;
+    processing: number;
+    shipped: number;
+    completed: number;
+    cancelled: number;
+  };
+}
 
-export const SideBar = (props: Props) => {
+export const SideBar = ({ counts }: SideBarProps) => {
   return (
     <nav className="sidebar">
       <div className="sidebar-section-label">Operations</div>
       <a className="nav-item active" href="#">
         <span className="nav-icon">◧</span> All Orders
-        <span className="nav-badge">47</span>
+        <span className="nav-badge">{counts.all}</span>
       </a>
       <a className="nav-item" href="#">
-        <span className="nav-icon">⧖</span> Pending
-        <span className="nav-badge">14</span>
+        <span className="nav-icon">◖</span> Pending
+        <span className="nav-badge">{counts.pending}</span>
       </a>
       <a className="nav-item" href="#">
         <span className="nav-icon">⚙</span> In Processing
-        <span className="nav-badge">18</span>
+        <span className="nav-badge">{counts.processing}</span>
       </a>
       <a className="nav-item" href="#">
         <span className="nav-icon">▶</span> Shipped
-        <span className="nav-badge green">9</span>
+        <span className="nav-badge green">{counts.shipped}</span>
       </a>
       <a className="nav-item" href="#">
         <span className="nav-icon">✔</span> Completed
-        <span className="nav-badge green">6</span>
+        <span className="nav-badge green">{counts.completed}</span>
       </a>
       <a className="nav-item" href="#">
         <span className="nav-icon">✕</span> Cancelled
-        <span className="nav-badge red">3</span>
+        <span className="nav-badge red">{counts.cancelled}</span>
       </a>
 
       <div className="sidebar-section-label">Tools</div>

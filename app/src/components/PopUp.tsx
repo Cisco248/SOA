@@ -1,68 +1,79 @@
-import React from "react";
+import { useState } from "react";
+import { Order } from "../constants/constant";
+import "./_popup.scss";
 
-interface Props {}
+interface Props {
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: (order: Order) => void;
+  nextId: string;
+}
 
-// class ExternalModel {
-//   constructor() {}
+const PopUp = ({ onClose, onSubmit, nextId }: Props) => {
+  const [formData, setFormData] = useState({
+    customer: "",
+    custId: "",
+    product: "",
+    amount: "",
+    priority: "MEDIUM" as Order["priority"],
+    notes: "",
+    date: new Date().toISOString().slice(0, 10),
+  });
 
-//   /**
-//    * @param {string} [model_id] - place the model class name
-//    * @param {number} [order_count] - generate automatic counting
-//    * @param {date} [create_date] - stamped create date
-//    */
-//   Open(model_id) {
-//     const order_count = 0;
-//     const id = document.getElementById(model_id);
-//     const order_id = document.getElementById("newOrderId");
-//     const time_count = document.getElementById("newDate");
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) => {
+    const { id, value } = e.target;
+    const keyMap: Record<string, string> = {
+      newCustomer: "customer",
+      newCustId: "custId",
+      newProduct: "product",
+      newAmount: "amount",
+      newPriority: "priority",
+      newNotes: "notes",
+      newDate: "date",
+    };
 
-//     if (id) {
-//       id.classList.add("open");
-//       order_count++;
-//       order_id.value = "ORD-" + order_count;
-//       time_count.value = new Date().toISOString().slice(0, 10);
+    const key = keyMap[id];
+    if (key) {
+      setFormData((prev) => ({ ...prev, [key]: value }));
+    }
+  };
 
-//       console.log(id);
-//     } else {
-//       Error("id not found!");
-//     }
-//   }
+  const handleSubmit = () => {
+    if (!formData.customer || !formData.product) {
+      alert("Customer and Product are required!");
+      return;
+    }
 
-//   /**
-//    *
-//    */
-//   Close(model_id) {
-//     const id = document.getElementById(model_id);
-//     if (id) {
-//       id.classList.remove("open");
-//     } else {
-//       showToast("Task is processing Please Wait!");
-//     }
-//   }
-// }
+    const newOrder: Order = {
+      id: nextId,
+      customer: formData.customer,
+      product: formData.product,
+      date: formData.date,
+      amount: parseFloat(formData.amount) || 0,
+      status: "PENDING",
+      priority: formData.priority,
+      urgent: formData.priority === "HIGH",
+    };
 
-// function openModal() {
-//   document.getElementById("modal").classList.add("open");
-//   document.getElementById("newOrderId").value = "ORD-" + orderCounter;
-//   document.getElementById("newDate").value = new Date()
-//     .toISOString()
-//     .slice(0, 10);
-// }
+    onSubmit(newOrder);
+  };
 
-// function closeModal() {
-//   document.getElementById("modal").classList.remove("open");
-// }
-
-const PopUp = (props: Props) => {
   return (
-    <div id="modal-overlay">
+    <div
+      id="modal-overlay"
+      className="open"
+      onClick={(e) => {
+        if ((e.target as HTMLElement).id === "modal-overlay") onClose();
+      }}
+    >
       <div className="modal">
         <div className="modal-header">
           <span className="modal-title"> New Order</span>
-          <button
-            className="modal-close"
-            //   onClick="closeModal()"
-          >
+          <button className="modal-close" onClick={onClose}>
             ✕
           </button>
         </div>
@@ -73,7 +84,7 @@ const PopUp = (props: Props) => {
               <input
                 className="field-input"
                 id="newOrderId"
-                placeholder="Auto-generated"
+                value={nextId}
                 readOnly
               />
             </div>
@@ -83,7 +94,8 @@ const PopUp = (props: Props) => {
                 className="field-input"
                 id="newDate"
                 type="date"
-                placeholder="Add Date"
+                value={formData.date}
+                onChange={handleChange}
               />
             </div>
           </div>
@@ -94,6 +106,8 @@ const PopUp = (props: Props) => {
                 className="field-input"
                 id="newCustomer"
                 placeholder="Full name"
+                value={formData.customer}
+                onChange={handleChange}
               />
             </div>
             <div className="field">
@@ -102,6 +116,8 @@ const PopUp = (props: Props) => {
                 className="field-input"
                 id="newCustId"
                 placeholder="e.g. C-0091"
+                value={formData.custId}
+                onChange={handleChange}
               />
             </div>
           </div>
@@ -112,6 +128,8 @@ const PopUp = (props: Props) => {
                 className="field-input"
                 id="newProduct"
                 placeholder="Product name or SKU"
+                value={formData.product}
+                onChange={handleChange}
               />
             </div>
           </div>
@@ -123,15 +141,20 @@ const PopUp = (props: Props) => {
                 id="newAmount"
                 type="number"
                 placeholder="0.00"
+                value={formData.amount}
+                onChange={handleChange}
               />
             </div>
             <div className="field">
               <label className="field-label">Priority</label>
-              <select className="field-select" id="newPriority">
+              <select
+                className="field-select"
+                id="newPriority"
+                value={formData.priority}
+                onChange={handleChange}
+              >
                 <option value="LOW">Low</option>
-                <option value="MEDIUM" selected>
-                  Medium
-                </option>
+                <option value="MEDIUM">Medium</option>
                 <option value="HIGH">High</option>
               </select>
             </div>
@@ -143,21 +166,17 @@ const PopUp = (props: Props) => {
                 className="field-textarea"
                 id="newNotes"
                 placeholder="Order notes or special instructions..."
+                value={formData.notes}
+                onChange={handleChange}
               ></textarea>
             </div>
           </div>
         </div>
         <div className="modal-footer">
-          <button
-            className="btn btn-ghost"
-            //   onClick="closeModal()"
-          >
+          <button className="btn btn-ghost" onClick={onClose}>
             Cancel
           </button>
-          <button
-            className="btn btn-primary"
-            //   onClick="saveOrder()"
-          >
+          <button className="btn btn-primary" onClick={handleSubmit}>
             ⊕ Save Order
           </button>
         </div>
