@@ -1,0 +1,4 @@
+com/globalbooks/catalog/CatalogService.class
+com/globalbooks/catalog/security/WSSecurityHandler.class
+com/globalbooks/catalog/Book.class
+com/globalbooks/catalog/CatalogServiceImpl.class

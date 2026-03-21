@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Order",
+  "type": "object",
+  "properties": {
+    "bookIsbn": {
+      "type": "string",
+      "description": "ISBN of the book being ordered"
+    },
+    "quantity": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of copies"
+    },
+    "customerEmail": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address of the customer"
+    }
+  },
+  "required": [
+    "bookIsbn",
+    "quantity",
+    "customerEmail"
+  ],
+  "additionalProperties": false
+}
