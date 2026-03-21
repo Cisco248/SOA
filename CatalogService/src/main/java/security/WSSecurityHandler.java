@@ -1,4 +1,4 @@
-package com.globalbooks.catalog.security;
+package security;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -14,16 +14,13 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
 import javax.xml.ws.soap.SOAPFaultException;
 import java.util.Set;
 
-/**
- * A simpler interceptor to artificially enforce WS-Security UsernameToken without complex Metro configs.
- */
 public class WSSecurityHandler implements SOAPHandler<SOAPMessageContext> {
 
     @Override
     public boolean handleMessage(SOAPMessageContext context) {
+        
         Boolean isOutbound = (Boolean) context.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
         
-        // We only authenticate INBOUND messages
         if (!isOutbound) {
             try {
                 SOAPMessage message = context.getMessage();
@@ -34,7 +31,6 @@ public class WSSecurityHandler implements SOAPHandler<SOAPMessageContext> {
                     throwFault("Security header is missing. Must provide WS-Security UsernameToken.");
                 }
                 
-                // Extremely naive parsing of the Security header
                 String username = extractElementValue(header, "Username");
                 String password = extractElementValue(header, "Password");
                 

@@ -8,7 +8,6 @@ const ajv = new Ajv();
 addFormats(ajv);
 const validate = ajv.compile(orderSchema);
 
-// In-memory mock database for Orders
 const ordersDb = new Map();
 
 /**
@@ -23,7 +22,7 @@ router.post('/', (req, res) => {
             details: validate.errors
         });
     }
-    
+
     const orderId = `ORD-${Date.now()}`;
     const newOrder = {
         id: orderId,
@@ -33,9 +32,8 @@ router.post('/', (req, res) => {
         status: 'PENDING_PAYMENT',
         createdAt: new Date().toISOString()
     };
-    
+
     ordersDb.set(orderId, newOrder);
-    
     res.status(201).json(newOrder);
 });
 
@@ -48,7 +46,6 @@ router.get('/:id', (req, res) => {
     if (!order) {
         return res.status(404).json({ error: 'Order not found' });
     }
-    // Only return data if found
     res.json(order);
 });
 
