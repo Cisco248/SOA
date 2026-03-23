@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "properties": {
+    "bookIsbn": { "type": "string" },
+    "quantity": { "type": "integer", "minimum": 1 },
+    "customerEmail": { "type": "string", "format": "email" }
+  },
+  "required": ["bookIsbn", "quantity", "customerEmail"],
+  "additionalProperties": false
+}

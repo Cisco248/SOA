@@ -1,0 +1,18 @@
+{
+  "name": "orders-service",
+  "version": "1.0.0",
+  "description": "OrdersService REST API for GlobalBooks SOA",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1",
+    "amqplib": "^0.10.9",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "nodemon": "^3.1.14"
+  }
+}

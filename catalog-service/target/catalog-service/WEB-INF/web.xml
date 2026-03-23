@@ -1,0 +1,26 @@
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+    version="5.0">
+
+    <listener>
+        <listener-class>
+            com.sun.xml.ws.transport.http.servlet.WSServletContextListener
+        </listener-class>
+
+        <listener>
+            <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+        </listener>
+    </listener>
+
+    <servlet>
+        <servlet-name>jaxws-servlet</servlet-name>
+        <servlet-class>
+            com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>jaxws-servlet</servlet-name>
+        <url-pattern>/catalog</url-pattern>
+    </servlet-mapping>
+
+</web-app>
