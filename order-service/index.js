@@ -14,8 +14,8 @@ app.get('/', (req, res) => {
     res.json({ message: 'Order Service is Running!' });
 });
 
-app.use('/oauth', authRouter);
-app.use('/orders', ordersRouter);
+app.use('/api/v1/oauth', authRouter);
+app.use('/api/v1/orders', ordersRouter);
 
 app.use((err, req, res, next) => {
     console.error('[Server] Unhandled error:', err.message);

@@ -1,61 +1,47 @@
-const amqp = require('amqplib');
+const { RabbitMQ } = require('../Integration/setupRabbitMQ.js');
 
 async function paymentService() {
     console.log('[PaymentsService] Start Payment Service V1.0.0');
+
     try {
-        const conn = await amqp.connect('amqp://localhost');
+        const rmq = new RabbitMQ();
+        await rmq.setupConnection();
+        await rmq.setupExchanges();
 
-        conn.on('error', (err) => console.error('[PaymentsService] Connection Error:', err.message));
-        conn.on('close', () => console.warn('[PaymentsService] Connection Closed!'));
-
-        const ch = await conn.createChannel();
         const queue = 'payment.process';
-        const exchange = 'globalbooks.events';
-
-        await ch.assertQueue(queue, {
-            durable: true,
-            arguments: {
-                'x-dead-letter-exchange': 'globalbooks.dlx',
-                'x-dead-letter-routing-key': 'error'
-            }
-        });
-        ch.prefetch(1);
+        await rmq.assertQueue(queue);
 
         console.log("[PaymentsService] Connected, Waiting for Order...");
 
-        ch.consume(queue, (msg) => {
-            if (msg === null) return;
+        await rmq.consume(queue, async (orderData, originalMsg) => {
+            console.log(`[PaymentsService] Received: Order ID: ${orderData.id}`);
 
-            const orderData = JSON.parse(msg.content.toString());
-            console.log(`[PaymentsService] Received Payment Requested: Order ID: ${orderData.id}`);
-
-            setTimeout(() => {
+            setTimeout(async () => {
                 try {
                     const failed = Math.random() < 0.1;
+
                     if (failed) {
-                        console.error(`[PaymentsService] Simulated Failure: ${orderData.id} Sending to DLQ.`);
-                        ch.nack(msg, false, false);
+                        console.error(`[PaymentsService] Simulated Failure: ${orderData.id}. Sending to DLQ.`);
+                        rmq.nack(originalMsg);
                         return;
                     }
 
                     const completedOrder = { ...orderData, status: 'PAYMENT_COMPLETED' };
-                    ch.publish(
-                        exchange,
-                        'payment.complete',
-                        Buffer.from(JSON.stringify(completedOrder)),
-                        { persistent: true }
-                    );
-                    ch.ack(msg);
+
+                    await rmq.publish('payment.complete', completedOrder);
+                    rmq.ack(originalMsg);
+
                     console.log(`[PaymentsService] Payment Successful: Order ID: ${orderData.id}`);
                 } catch (err) {
                     console.error(`[PaymentsService] Processing Error: ${err.message}`);
-                    ch.nack(msg, false, false);
+                    rmq.nack(originalMsg);
                 }
             }, 1000);
         });
+
     } catch (err) {
-        console.error('[PaymentsService] Failed:', err.message);
-        process.exit(1); // Exit so a process manager (e.g. Docker, PM2) can restart
+        console.error('[PaymentsService] Initialization Failed:', err.message);
+        process.exit(1);
     }
 }
 

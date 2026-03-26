@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Ajv = require('ajv');
 const addFormats = require('ajv-formats');
-const amqp = require('amqplib');
 const orderSchema = require('../schema/orderSchema.json');
 const { authenticateToken } = require('../middlewares/authentication.js');
 const { RabbitMQ } = require('../Integration/setupRabbitMQ.js');
@@ -14,7 +13,7 @@ const validate = ajv.compile(orderSchema);
 const ordersDb = new Map();
 
 /**
- * POST /orders
+ * POST /api/v1/orders
  * Creates a new order after validating JSON schema.
  */
 router.post('/', authenticateToken, async (req, res) => {
@@ -41,34 +40,23 @@ router.post('/', authenticateToken, async (req, res) => {
     const rmq = new RabbitMQ('amqp://localhost', 'globalbooks.events')
     await rmq.setupConnection()
     await rmq.setupExchanges()
+    await rmq.publish("order.created", newOrder);
 
-    const conn = await amqp.connect('amqp://localhost')
-    const channel = await conn.createChannel()
+    const paymentQueue = 'payment.process';
+    await rmq.assertQueue(paymentQueue)
+    await rmq.bindQueue(paymentQueue, 'order.created')
 
-    await channel.publish(
-        'globalbooks.events',
-        'order.created',
-        Buffer.from(JSON.stringify(newOrder)),
-        { persistent: true }
-    );
+    const shippingQueue = 'shipping.dispatch';
+    await rmq.assertQueue(shippingQueue)
+    await rmq.bindQueue(shippingQueue, 'payment.complete')
 
     res.status(201).json(newOrder);
 
-    await rmq.setupPaymentQueue()
-    await rmq.setupShippingQueue()
 });
 
-/**
- * GET /orders
- * Returns all orders. (ADDED: was missing from original codebase)
- */
-router.get('/', authenticateToken, (req, res) => {
-    const allOrders = Array.from(ordersDb.values());
-    res.json(allOrders);
-});
 
 /**
- * GET /orders/:id
+ * GET /api/v1/orders/:id
  * Retrieves a specific order by ID.
  */
 router.get('/:id', authenticateToken, (req, res) => {
