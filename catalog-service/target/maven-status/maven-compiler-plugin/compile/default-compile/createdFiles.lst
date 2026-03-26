@@ -1,2 +1,3 @@
 com\globalbooks\catalog\CatalogService.class
 com\globalbooks\catalog\Main.class
+com\globalbooks\catalog\model\Book.class

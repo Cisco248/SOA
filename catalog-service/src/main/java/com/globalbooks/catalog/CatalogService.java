@@ -5,24 +5,24 @@ import jakarta.jws.WebService;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.globalbooks.catalog.model.Book;
+
 @WebService
 public class CatalogService {
 
-    private static final Map<String, String> books = new HashMap<>();
+    private static final Map<String, Book> books = new HashMap<>();
 
-    static {
-        books.put("111", "Clean Code - ");
-        books.put("222", "Atomic Habits - ");
-        books.put("333", "Design Patterns - ");
+    @WebMethod
+    public void addBook(Book book) {
+        if (book.getIsbn() == null || book.getIsbn().isEmpty())
+            throw new Error("ISBN is required");
+        if (book.getTitle() == null || book.getTitle().isEmpty())
+            throw new Error("Name is required");
+        if (book.getPrice() == 0)
+            throw new Error("Price is required");
+
+        books.put(book.getIsbn(), book);
     }
-
-    // public void addBook(String isbn, String name, Number price) {
-    //     if (isbn == null || isbn.isEmpty()) throw new Error("ISBN is required");
-    //     if (name == null || name.isEmpty()) throw new Error("Name is required");
-    //     if (price == null || price.floatValue() == 0) throw new Error("Price is required");
-
-    //     books.put(isbn, name);
-    // }
 
     @WebMethod
     public String getBook(String isbn) {
@@ -30,13 +30,14 @@ public class CatalogService {
             return "Error: ISBN cannot be empty";
         }
 
-        String book = books.get(isbn);
+        Book book = books.get(isbn);
 
         if (book == null) {
-            return "Error: Book not found";
+            return "Error: Book not found for ISBN " + isbn;
         }
 
-        return "Book: " + book + " | ISBN: " + isbn;
+        String details = book.getBookAsJson();
+        return details;
     }
 
     @WebMethod
@@ -45,12 +46,12 @@ public class CatalogService {
             return "Error: ISBN cannot be empty";
         }
 
-        Object book = books.get(isbn);
+        Book book = books.get(isbn);
 
         if (book == null) {
             return "Error: Book not found";
         }
 
-        return "Book" + book;
+        return "Price: " + book.getPrice();
     }
 }

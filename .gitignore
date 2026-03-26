@@ -9,3 +9,4 @@ dist-ssr
 .vscode/
 .hintrc
 .prettierrc
+catalog-service/target/

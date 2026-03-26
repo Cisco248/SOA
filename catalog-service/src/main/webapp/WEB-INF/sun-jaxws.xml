@@ -5,5 +5,5 @@
     <endpoint
         name="CatalogService"
         implementation="com.globalbooks.catalog.CatalogService"
-        url-pattern="/catalog"/>
+        url-pattern="/api/v1/*" />
 </endpoints>
